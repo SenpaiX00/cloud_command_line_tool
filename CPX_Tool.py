@@ -1,7 +1,8 @@
+import subprocess
 #1. return a printout of all running hosts and corresponding health status, running services, CPU and memory usage stats
 def running_services():
     print ("Working on providing your running services now")
-#2. 
+#2.
 def CPU_Usage_of_Service(service):
     print ("Working on "+ service)
 
@@ -9,7 +10,7 @@ def CPU_Usage_of_Service(service):
 
 
 #Start of Script: basic selection of which API service to use. The assumption here is that the required keys/secrets (for example, access ekys and secrets in AWS)
-#are provided already in the CLI tool configuration - elsewise I would write an initial configuration that takes kesy and secrets as the input and pumps those out 
+#are provided already in the CLI tool configuration - elsewise I would write an initial configuration that takes kesy and secrets as the input and pumps those out
 # in order to bash to configure the CLI tool to have the proper permissions to make those requests. I am also assuming that this script will run on keys that have
 # admin rights, and I have not included "unauthorized" returns.
 print("Please choose the service you would like \n"
@@ -24,4 +25,6 @@ elif selection == "2":
     selection = input("Please type the number of the service: ")
     if selection == "1":
         service = "PermissionsService"
+    elif selection
     CPU_Usage_of_Service(service)
+
