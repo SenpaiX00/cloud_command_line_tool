@@ -1,7 +1,29 @@
 import subprocess
+import os
+
+
 #1. return a printout of all running hosts and corresponding health status, running services, CPU and memory usage stats
 def running_services():
+    IPs = []
     print ("Working on providing your running services now")
+    #x = str(os.system("curl localhost:8081/servers")) #Must ensure the server is running on port 8081. ACTION DO NOT LET PRINT
+    x = subprocess.run("curl localhost:8081/servers", shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    y = str(x)
+    newString = y.replace('"',' ')
+    newString = newString.replace("[","")
+    newString = newString.replace(" ","")
+    l= [newString.split(",")]
+    print(newString)
+    
+
+
+    #list_Of_IPs = [x]
+    #for ip in list_Of_IPs:
+    #    print(ip)
+    #    print(len(list_Of_IPs))
+
+
+
 #2.
 def CPU_Usage_of_Service(service):
     print ("Working on "+ service)
@@ -25,6 +47,7 @@ elif selection == "2":
     selection = input("Please type the number of the service: ")
     if selection == "1":
         service = "PermissionsService"
-    elif selection
+    elif selection == "2":
+        service = "AuthService"
     CPU_Usage_of_Service(service)
 
