@@ -1,26 +1,34 @@
 import subprocess
 import os
-
+import pandas as pd #ensure that instructions to run do a pip3 install pandas
+LIST_OF_SERVICES_BY_IP = list()
 
 #1. return a printout of all running hosts and corresponding health status, running services, CPU and memory usage stats
 def running_services():
     IPs = []
-    print ("Working on providing your running services now")
+    print("Working on providing your running services now")
     #x = str(os.system("curl localhost:8081/servers")) #Must ensure the server is running on port 8081. ACTION DO NOT LET PRINT
     x = subprocess.run("curl localhost:8081/servers", shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
     y = str(x)
     newString = y.replace('"',' ')
-    newString = newString.replace("[","")
-    newString = newString.replace(" ","")
-    l= [newString.split(",")]
-    print(newString)
-    
+    newString = newString.replace("[","").replace("]","").replace("]","").replace(" ","").replace(","," ")
+    l= list(newString.split(" "))
+    df = pd.DataFrame({'IP':[],
+                       'Service':[],
+                       'Status':[],
+                       'CPU':[],
+                       'Memory':[]})
+    for ip in l:
+        #df.append()
+        n = subprocess.run("curl localhost:8081/"+ip, shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
+        xString = str(n)
+        resultStringPerIP = xString.replace("{"," ").replace('"','').replace("}","")
+        list_of_service = list(resultStringPerIP.split(","))
+        LIST_OF_SERVICES_BY_IP.append(ip)
+        for each in list_of_service:
+            LIST_OF_SERVICES_BY_IP.append(each)
+    print(LIST_OF_SERVICES_BY_IP)
 
-
-    #list_Of_IPs = [x]
-    #for ip in list_Of_IPs:
-    #    print(ip)
-    #    print(len(list_Of_IPs))
 
 
 
