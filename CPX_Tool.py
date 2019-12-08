@@ -45,15 +45,17 @@ def running_services():
         LIST_OF_SERVICES_BY_IP.append(resultStringPerIP)
     #Placeholder for status method call
     status = status_maker(LIST_OF_SERVICES_BY_IP)
+    count = 0
     for item in LIST_OF_SERVICES_BY_IP:
         service_married_to_ip = item
         splitService = service_married_to_ip.split(",")
         df3 = pd.DataFrame({'IP':[splitService[0]],
                            'Service':[splitService[3]],
-                           'Status': ['null'],
+                           'Status': [status[count]],
                            'CPU':[splitService[1]],
                            'Memory': [splitService[2]]})
         df = df.append(df3)
+        count= count+1
     pd.set_option('display.max_rows', None)
     return(df)
 
