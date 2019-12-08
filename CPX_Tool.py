@@ -1,33 +1,53 @@
 import subprocess
 import os
-import pandas as pd #ensure that instructions to run do a pip3 install pandas
+import pandas as pd
 LIST_OF_SERVICES_BY_IP = list()
+
 
 #1. return a printout of all running hosts and corresponding health status, running services, CPU and memory usage stats
 def running_services():
-    IPs = []
-    print("Working on providing your running services now")
-    #x = str(os.system("curl localhost:8081/servers")) #Must ensure the server is running on port 8081. ACTION DO NOT LET PRINT
-    x = subprocess.run("curl localhost:8081/servers", shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
-    y = str(x)
-    newString = y.replace('"',' ')
-    newString = newString.replace("[","").replace("]","").replace("]","").replace(" ","").replace(","," ")
-    l= list(newString.split(" "))
     df = pd.DataFrame({'IP':[],
                        'Service':[],
                        'Status':[],
                        'CPU':[],
                        'Memory':[]})
+    IPs = []
+    print("Working on providing your running services now")
+    #x = str(os.system("curl localhost:8081/servers")) #Must ensure the server is running on port 8081.
+    x = subprocess.run("curl localhost:8081/servers", shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    y = str(x)
+    newString = y.replace('"',' ')
+    newString = newString.replace("[","").replace("]","").replace("]","").replace(" ","").replace(","," ")
+    l= list(newString.split(" "))
     for ip in l:
-        #df.append()
         n = subprocess.run("curl localhost:8081/"+ip, shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
         xString = str(n)
         resultStringPerIP = xString.replace("{"," ").replace('"','').replace("}","")
-        list_of_service = list(resultStringPerIP.split(","))
-        LIST_OF_SERVICES_BY_IP.append(ip)
-        for each in list_of_service:
-            LIST_OF_SERVICES_BY_IP.append(each)
-    print(LIST_OF_SERVICES_BY_IP)
+        resultStringPerIP = ip+","+resultStringPerIP
+        LIST_OF_SERVICES_BY_IP.append(resultStringPerIP)
+    for item in LIST_OF_SERVICES_BY_IP:
+        service_married_to_ip = item
+        splitService = service_married_to_ip.split(",")
+        '''data = [{'IP': splitService[0],
+                 'Service': splitService[3],
+                 'Status': 'null',
+                 'CPU': splitService[1],
+                 'Memory': splitService[2]}]'''
+        df3 = pd.DataFrame({'IP':[splitService[0]],
+                           'Service':[splitService[3]],
+                           'Status': ['null'],
+                           'CPU':[splitService[1]],
+                           'Memory': [splitService[2]]})
+        print(df3, "\n")
+        df.append(df3)
+
+    print(LIST_OF_SERVICES_BY_IP[0], LIST_OF_SERVICES_BY_IP[3])
+    print(df)
+
+
+
+        #list_of_service = list(resultStringPerIP)
+
 
 
 
