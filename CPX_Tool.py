@@ -91,6 +91,24 @@ def Average_Use_of_Service(service):
         mem_list2.append(num1)
     print('\n'+ '\033[95m'+'\033[1m' + 'Average memory usage for '+service+' = ', statistics.mean(mem_list2))
 
+#3. Flag services with fewer that 2 healthy instances running
+def Flag_Services_With_Less_That_Two_Healthy_Instances():
+    services = ['PermissionsService','AuthService','MLService','TimeService','GeoService','IdService','StorageService','UserService','RoleService','TicketService']
+    df = running_services()
+    for service in services:
+        df2 = df[df.Service.str.contains(service)]
+        df3 = df2[df2.Status.str.contains('healthy')]
+        if len(df3.index) < 2:
+            print('\033[91m'+"Warning - there are only two healthy instances for "+service)
+        else: print("Nothing to flag - services are all operating with > 2 healthy instances")
+    pd.set_option('display.max_rows', None)
+
+#4 Have the ability to track and print CPU/Memory of all instances of a given service over time (until the command is stopped, e.g. ctrl + c).
+def cpu_memory_tracker(service):
+    print("Tracking "+service+' now. Press Ctrl+c to stop')
+
+
+
 
 
 
@@ -99,36 +117,69 @@ def Average_Use_of_Service(service):
 #are provided already in the CLI tool configuration - elsewise I would write an initial configuration that takes kesy and secrets as the input and pumps those out
 # in order to bash to configure the CLI tool to have the proper permissions to make those requests. I am also assuming that this script will run on keys that have
 # admin rights, and I have not included "unauthorized" returns.
-print("Please choose the service you would like \n"
+def main():
+    print("Please choose the service you would like \n"
       "1. a view of all running services \n2. A view of the average CPU/memory usage of a particular service \n3. Flag services with fewer than 2 healthy services running\n4. track and print CPU/Memory of all instances of a given service over time (until the command is stopped, e.g. ctrl + c)")
 
-selection = input("Make your selection by typing a number: ")
-print("you selected " + selection)
-if selection == "1":
-    run_services()
-elif selection == "2":
-    print("Choose from the following services: \n1. PermissionsService\n2. AuthService\n3. MLService\n4. StorageService\n5. GeoService\n6. TimeService\n7. IdService\n8. UserService\n9. RoleService\n10. TicketService")
-    selection = input("Please type the number of the service: ")
+    selection = input("Make your selection by typing a number: ")
+    print("you selected " + selection)
     if selection == "1":
-        service = "PermissionsService"
+        run_services()
     elif selection == "2":
-        service = "AuthService"
+        print("Choose from the following services: \n1. PermissionsService\n2. AuthService\n3. MLService\n4. StorageService\n5. GeoService\n6. TimeService\n7. IdService\n8. UserService\n9. RoleService\n10. TicketService")
+        selection = input("Please type the number of the service: ")
+        if selection == "1":
+            service = "PermissionsService"
+        elif selection == "2":
+            service = "AuthService"
+        elif selection == "3":
+            service = "MLService"
+        elif selection == '4':
+            service = 'StorageService'
+        elif selection == '5':
+            service = 'GeoService'
+        elif selection == '6':
+            service = 'TimeService'
+        elif selection == '7':
+            service = 'IdService'
+        elif selection == '8':
+            service = 'UserService'
+        elif selection == '9':
+            service = 'RoleService'
+        elif selection == '10':
+            service = 'TicketService'
+        Average_Use_of_Service(service)
     elif selection == "3":
-        service = "MLService"
+        Flag_Services_With_Less_That_Two_Healthy_Instances()
     elif selection == '4':
-        service = 'StorageService'
-    elif selection == '5':
-        service = 'GeoService'
-    elif selection == '6':
-        service = 'TimeService'
-    elif selection == '7':
-        service = 'IdService'
-    elif selection == '8':
-        service = 'UserService'
-    elif selection == '9':
-        service = 'RoleService'
-    elif selection == '10':
-        service = 'TicketService'
-    Average_Use_of_Service(service)
+        print("Choose from the following services: \n1. PermissionsService\n2. AuthService\n3. MLService\n4. StorageService\n5. GeoService\n6. TimeService\n7. IdService\n8. UserService\n9. RoleService\n10. TicketService")
+        selection = input("Please type the number of the service: ")
+        if selection == "1":
+            service = "PermissionsService"
+        elif selection == "2":
+            service = "AuthService"
+        elif selection == "3":
+            service = "MLService"
+        elif selection == '4':
+            service = 'StorageService'
+        elif selection == '5':
+            service = 'GeoService'
+        elif selection == '6':
+            service = 'TimeService'
+        elif selection == '7':
+            service = 'IdService'
+        elif selection == '8':
+            service = 'UserService'
+        elif selection == '9':
+            service = 'RoleService'
+        elif selection == '10':
+            service = 'TicketService'
+        cpu_memory_tracker(service)
+    else:
+        print('Incorrect selection - try again')
+        main()
+
+if __name__ == "__main__":
+    main()
 
 
