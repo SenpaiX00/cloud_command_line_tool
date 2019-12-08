@@ -44,7 +44,7 @@ def running_services():
         resultStringPerIP = xString.replace("{"," ").replace('"','').replace("}","")
         resultStringPerIP = ip+","+resultStringPerIP
         LIST_OF_SERVICES_BY_IP.append(resultStringPerIP)
-    #Placeholder for status method call
+    #below calls for status
     status = status_maker(LIST_OF_SERVICES_BY_IP)
     count = 0
     for item in LIST_OF_SERVICES_BY_IP:
@@ -75,7 +75,6 @@ def Average_Use_of_Service(service):
         cpu2 = cpu.replace('%','').replace('cpu: ','').replace(" ",'').replace('\n',',').replace('Name:CPU,dtype:object','')
     cpu_list = list(cpu2.split(','))
     del cpu_list[-1]
-    #print("PRINTING CPU\n", cpu2, cpu_list)
     cpu_list2 =[]
     for item in cpu_list:
         num = int(item)
@@ -112,11 +111,6 @@ def cpu_memory_tracker(service):
         df2 = df[df.Service.str.contains(service)]
         print(df2)
         time.sleep(10)
-
-
-
-
-
 
 
 #Start of Script: basic selection of which API service to use. The assumption here is that the required keys/secrets (for example, access ekys and secrets in AWS)
