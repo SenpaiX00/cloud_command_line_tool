@@ -1,6 +1,7 @@
 import subprocess
 import pandas as pd
 import statistics
+import time
 LIST_OF_SERVICES_BY_IP = list()
 
 
@@ -106,6 +107,11 @@ def Flag_Services_With_Less_That_Two_Healthy_Instances():
 #4 Have the ability to track and print CPU/Memory of all instances of a given service over time (until the command is stopped, e.g. ctrl + c).
 def cpu_memory_tracker(service):
     print("Tracking "+service+' now. Press Ctrl+c to stop')
+    while True:
+        df = running_services()
+        df2 = df[df.Service.str.contains(service)]
+        print(df2)
+        time.sleep(10)
 
 
 
