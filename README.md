@@ -1,9 +1,12 @@
 # cloud_command_line_tool
 A CLI tool for retrieving important services information from a CSP's API
 ## User Guide
-### Pre-requisites:
+### Pre-requisites & installations:
   1. Ensure that you have Pandas for Python3 installed. You can achieve this by copying the following command into your Linux terminal: pip3 install pandas
   2. Ensure you run the script using python3, and use your terminal with the following command: python3 CPX_Tool.py
+
+## Assumptions
+1. When calculating the status of an instance/service, I have use CPU as the sole factor and flagged an "unhealthy" instance where CPU usage is equal to or greater than 80%
 
 ## Future Improvements
 1. As this is a command line tool that assumes an API call to the CSP, there must be keys and secrets involved, allowing users to 1. make API calls and 2. authorizing calls that can be made.
