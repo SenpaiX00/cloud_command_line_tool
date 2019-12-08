@@ -1,7 +1,8 @@
 import subprocess
-import os
 import pandas as pd
+import statistics
 LIST_OF_SERVICES_BY_IP = list()
+
 
 
 #1. return a printout of all running hosts and corresponding health status, running services, CPU and memory usage stats
@@ -13,7 +14,6 @@ def running_services():
                        'Memory':[]})
     IPs = []
     print("Working on providing your running services now")
-    #x = str(os.system("curl localhost:8081/servers")) #Must ensure the server is running on port 8081.
     x = subprocess.run("curl localhost:8081/servers", shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8')
     y = str(x)
     newString = y.replace('"',' ')
@@ -28,33 +28,36 @@ def running_services():
     for item in LIST_OF_SERVICES_BY_IP:
         service_married_to_ip = item
         splitService = service_married_to_ip.split(",")
-        '''data = [{'IP': splitService[0],
-                 'Service': splitService[3],
-                 'Status': 'null',
-                 'CPU': splitService[1],
-                 'Memory': splitService[2]}]'''
         df3 = pd.DataFrame({'IP':[splitService[0]],
                            'Service':[splitService[3]],
                            'Status': ['null'],
                            'CPU':[splitService[1]],
                            'Memory': [splitService[2]]})
-        print(df3, "\n")
-        df.append(df3)
+        df = df.append(df3)
+    pd.set_option('display.max_rows', None)
+    return(df)
 
-    print(LIST_OF_SERVICES_BY_IP[0], LIST_OF_SERVICES_BY_IP[3])
-    print(df)
-
-
-
-        #list_of_service = list(resultStringPerIP)
-
-
-
-
-
-#2.
-def CPU_Usage_of_Service(service):
+#2. take a service and return average usage of memory and CPU
+def Average_Use_of_Service(service):
+    cpu_list =[]
     print ("Working on "+ service)
+    df = pd.DataFrame()
+    df = df.append(running_services())
+    print('The following instances were found to be running the '+service+' service')
+    print(df[df.Service.str.contains(service)])
+    df2 = df[df.Service.str.contains(service)]
+    for row, index in df2.iterrows():
+        cpu = str(df2.CPU)
+        cpu2 = cpu.replace('%','').replace('cpu: ','').replace(" ",'').replace('\n',',').replace('Name:CPU,dtype:object','')
+    cpu_list = list(cpu2.split(','))
+    del cpu_list[-1]
+    #print("PRINTING CPU\n", cpu2, cpu_list)
+    cpu_list2 =[]
+    for item in cpu_list:
+        num = int(item)
+        cpu_list2.append(num)
+    print('Average CPU usage for '+service+' = ', statistics.mean(cpu_list2))
+
 
 
 
@@ -71,11 +74,28 @@ print("you selected " + selection)
 if selection == "1":
     running_services()
 elif selection == "2":
-    print("Choose from the following services: \n1. PermissionsService\n2. AuthService\n3. MLService\n4. StorageService\n5. ")
+    print("Choose from the following services: \n1. PermissionsService\n2. AuthService\n3. MLService\n4. StorageService\n5. GeoService\n6. TimeService\n7. IdService\n8. UserService\n9. RoleService\n10. TicketService")
     selection = input("Please type the number of the service: ")
     if selection == "1":
         service = "PermissionsService"
     elif selection == "2":
         service = "AuthService"
-    CPU_Usage_of_Service(service)
+    elif selection == "3":
+        service = "MLService"
+    elif selection == '4':
+        service = 'StorageService'
+    elif selection == '5':
+        service = 'GeoService'
+    elif selection == '6':
+        service = 'TimeService'
+    elif selection == '7':
+        service = 'IdService'
+    elif selection == '8':
+        service = 'UserService'
+    elif selection == '9':
+        service = 'RoleService'
+    elif selection == '10':
+        service = 'TicketService'
+    Average_Use_of_Service(service)
+
 
