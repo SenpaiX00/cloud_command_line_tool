@@ -39,11 +39,12 @@ def running_services():
 
 #2. take a service and return average usage of memory and CPU
 def Average_Use_of_Service(service):
-    cpu_list =[]
+    cpu_list=[]
+    mem_list=[]
     print ("Working on "+ service)
     df = pd.DataFrame()
     df = df.append(running_services())
-    print('The following instances were found to be running the '+service+' service')
+    print('\nThe following instances were found to be running the '+service+' service\n')
     print(df[df.Service.str.contains(service)])
     df2 = df[df.Service.str.contains(service)]
     for row, index in df2.iterrows():
@@ -56,7 +57,17 @@ def Average_Use_of_Service(service):
     for item in cpu_list:
         num = int(item)
         cpu_list2.append(num)
-    print('Average CPU usage for '+service+' = ', statistics.mean(cpu_list2))
+    print('\n'+ '\033[95m'+'\033[1m' + 'Average CPU usage for '+service+' = ', statistics.mean(cpu_list2))
+    for row, index in df2.iterrows():
+        mem = str(df2.Memory)
+        mem2 = mem.replace('%','').replace('memory: ','').replace(" ",'').replace('\n',',').replace('Name:Memory,dtype:object','')
+    mem_list = list(mem2.split(','))
+    del mem_list[-1]
+    mem_list2 = []
+    for item in mem_list:
+        num1 = int(item)
+        mem_list2.append(num1)
+    print('\n'+ '\033[95m'+'\033[1m' + 'Average memory usage for '+service+' = ', statistics.mean(mem_list2))
 
 
 
