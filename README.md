@@ -2,8 +2,8 @@
 A CLI tool for retrieving important services information from a CSP's API
 ## User Guide
 ### Pre-requisites & installations:
-  1. Ensure that you have Pandas for Python3 installed. You can achieve this by copying the following command into your Linux terminal: pip3 install pandas
-  2. Ensure you run the script using python3, and use your terminal with the following command: python3 CPX_Tool.py
+1. Ensure that you have Pandas for Python3 installed. You can achieve this by copying the following command into your Linux terminal: pip3 install pandas
+2. Ensure you run the script using python3, and use your Bash terminal with the following command: python3 CPX_Tool.py
 
 ## Assumptions
 1. When calculating the status of an instance/service, I have use CPU as the sole factor and flagged an "unhealthy" instance where CPU usage is equal to or greater than 80%
@@ -17,4 +17,5 @@ A CLI tool for retrieving important services information from a CSP's API
 2. There are improvements to be made to the first function, that provides a write out of all services and hardware statistics across all IP addresses. Firstly I have not yet set the "Status" feature, which involves writing a function that takes CPU usage as an int, and returns a string based on the int, which will then get inserted into the dataframe. Secondly, I a second iteration should seek to slim down the number of data structures. Lastly, the code needs to be tidied up and a little more sophistication used when formatting strings of data piped in. In addition, some additional stripping must be done before passing the strings into the dataframe.
 3. A further improvement is the overall efficiency of the code. Currently the code relies on several big data structures. I have tried to minimise this by abstracting a lot of the heavy lifting away to  `   running_services()  `  - but future improvements to the code should look at further reducing the number of data structures. 
 4. Another furutre improvement would be to have the successful or unsuccessful execution of a function - after  `   main() `    loop back to main again, or ask if the user would like to quit the program.
+5. A final future improvement is that currently, due to the piping to and from the shell, there are a number of printout statements prior to the final print out of information that covers the deliverables. I would look to remove these in a future version.
 
