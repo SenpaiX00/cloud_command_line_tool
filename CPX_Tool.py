@@ -6,6 +6,24 @@ LIST_OF_SERVICES_BY_IP = list()
 
 
 #1. return a printout of all running hosts and corresponding health status, running services, CPU and memory usage stats
+def run_services():
+    print(running_services())
+
+def status_maker(list):
+    status = []
+    for item in list:
+        newItem = str(item)
+        x =newItem.split(',')
+        matching = [s for s in x if "cpu" in s]
+        for i in matching:
+            n = str(i)
+            y = n.replace(" ","").replace("%","").replace("cpu:",'')
+            num = int(y)
+            if num >= 80:
+                status.append('unhealthy')
+            else: status.append('healthy')
+    return status
+
 def running_services():
     df = pd.DataFrame({'IP':[],
                        'Service':[],
@@ -25,6 +43,8 @@ def running_services():
         resultStringPerIP = xString.replace("{"," ").replace('"','').replace("}","")
         resultStringPerIP = ip+","+resultStringPerIP
         LIST_OF_SERVICES_BY_IP.append(resultStringPerIP)
+    #Placeholder for status method call
+    status = status_maker(LIST_OF_SERVICES_BY_IP)
     for item in LIST_OF_SERVICES_BY_IP:
         service_married_to_ip = item
         splitService = service_married_to_ip.split(",")
@@ -83,7 +103,7 @@ print("Please choose the service you would like \n"
 selection = input("Make your selection by typing a number: ")
 print("you selected " + selection)
 if selection == "1":
-    running_services()
+    run_services()
 elif selection == "2":
     print("Choose from the following services: \n1. PermissionsService\n2. AuthService\n3. MLService\n4. StorageService\n5. GeoService\n6. TimeService\n7. IdService\n8. UserService\n9. RoleService\n10. TicketService")
     selection = input("Please type the number of the service: ")
