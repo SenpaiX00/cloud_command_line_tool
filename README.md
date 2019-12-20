@@ -19,7 +19,7 @@ A CLI tool for retrieving important services information from a CSP's API
 4. Another furutre improvement would be to have the successful or unsuccessful execution of a function - after  `   main() `    loop back to main again, or ask if the user would like to quit the program.
 5. A final future improvement is that currently, due to the piping to and from the shell, there are a number of printout statements prior to the final print out of information that covers the deliverables. I would look to remove these in a future version.
 
-##THE CHALLENGE
+## THE CHALLENGE
 
 You have just joined a shiny new start-up that doesn’t have any prior DevOps experience. They have deployed a bunch of microservices in the cloud but don’t have monitoring or any way of determining how many instances are running. In an attempt to organise your deployments you decide to write a command line tool that will query Cloud Provider X (CPX).
 
