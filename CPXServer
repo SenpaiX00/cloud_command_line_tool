@@ -1,4 +1,4 @@
-#Mock up server provided as part of the challenge
+Mock up server provided as part of the challenge
 #!/usr/bin/env python3
 
 import argparse
