@@ -19,9 +19,7 @@ A CLI tool for retrieving important services information from a CSP's API
 4. Another furutre improvement would be to have the successful or unsuccessful execution of a function - after  `   main() `    loop back to main again, or ask if the user would like to quit the program.
 5. A final future improvement is that currently, due to the piping to and from the shell, there are a number of printout statements prior to the final print out of information that covers the deliverables. I would look to remove these in a future version.
 
-## THE CHALLENGE
-
-You have just joined a shiny new start-up that doesn’t have any prior DevOps experience. They have deployed a bunch of microservices in the cloud but don’t have monitoring or any way of determining how many instances are running. In an attempt to organise your deployments you decide to write a command line tool that will query Cloud Provider X (CPX).
+## Problem Statement
 
 Challenge:
 
@@ -46,7 +44,6 @@ IP         Service             Status        CPU  Memory
 10.58.1.4  StorageService      Unhealthy      95%  85% 
 10.58.1.3  MLService           Healthy        35%  55% 
 
-(But feel free to be creative!)
 
 Assumptions:
 
@@ -65,14 +62,4 @@ $curl localhost:<port>/10.58.1.121
 {"cpu":"61%","service":"UserService","memory":"4%"}
 
 
-Deliverables:
 
-1. The complete source code for a simple program written in either Python, Go or Java. 
-
-2. You should include a README.md file discussing some of the choices you’ve made, trade-offs and future improvements. 
-
-3. Documentation on how to build and/or run your program. 
-
-4. Feel free to use open source third party libraries. However, you should not assume that these libraries will be globally installed on the system; you should provide instructions on how to fetch them in the README.md (e.g. via go get, pip, maven or similar). 
-
-5. Tests where deemed necessary, mocking where appropriate. 
