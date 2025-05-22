@@ -1,6 +1,4 @@
-#This is an excercise based on an interview challenge provided by a London-based company operating in the financial services sector
-#It did not pass, though delivers functional code for a CLI tool.
-#I have added the code to my repo on GitHub as I wish to leverage it for an AWS tool set later down the line.
+
 
 import subprocess
 import pandas as pd
